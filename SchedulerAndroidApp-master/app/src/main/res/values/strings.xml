@@ -17,6 +17,7 @@
     <string name="about">About</string>
     <string name="aboutText"> Due2mr is an android application, which aims at helping users manage their time efficiently. It reminds users of saved schedules via notifications, and very simple and easy to use. The users will not have to go through the stress of remembering his/her activities and get rid of procrastination. </string>
     <string name="title_activity_intro">Intro</string>
+    <string name="finish">Finished!</string>string>
 
 
 
