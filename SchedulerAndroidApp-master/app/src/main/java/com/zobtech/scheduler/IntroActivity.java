@@ -34,7 +34,6 @@ public class IntroActivity extends AppIntro {
     }
 
     private void loadMainActivity(){
-
         settings = getSharedPreferences("prefs", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("firstRun", false);
