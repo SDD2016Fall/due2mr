@@ -49,8 +49,11 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/task_finished"
-            android:text="@string/finish"
+
+            android:scaleX="2.00"
+            android:scaleY="2.00"
+
+
             />
 
     </LinearLayout>
