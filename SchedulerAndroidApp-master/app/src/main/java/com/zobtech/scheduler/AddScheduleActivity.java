@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
+// writen by Chaonan Ye, Yi Lu, Yipeng Zhang, James Zirons
 public class AddScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     // id's for timepicker and datepicker dialogs.

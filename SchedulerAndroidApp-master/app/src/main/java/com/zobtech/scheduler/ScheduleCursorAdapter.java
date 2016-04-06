@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-/**
- * Created by Junior on 28/05/2015.
- */
+// writen by Yipeng Zhang
 public class ScheduleCursorAdapter extends CursorAdapter {
 
 
