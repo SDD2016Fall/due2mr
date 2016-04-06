@@ -32,7 +32,7 @@
 
     </LinearLayout>
 
-<LinearLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,15 +46,6 @@
             android:textColor="#0d9ab4"
             android:gravity="center"
             android:textSize="14sp" />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:scaleX="2.00"
-            android:scaleY="2.00"
-
-
-            />
 
     </LinearLayout>
 </LinearLayout>
