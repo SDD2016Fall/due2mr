@@ -33,6 +33,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 // Written by Yi Lu, Chaonan Ye, Yipeng Zhang, James Ziron
 public class AddScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -223,20 +225,46 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
         String message = textSchedule.getText().toString();
 
-        // get an instance of the Calender class
+        // get an instance of the Calendar class
         Calendar calendar = Calendar.getInstance();
 
-        // set the Calender instance with date and time
+        // set the Calendar instance with date and time
         calendar.set(yr, month, day);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
-        if(calendar.getTimeInMillis()<System.currentTimeMillis()){
+        if(scheduleUri==null && calendar.getTimeInMillis()<System.currentTimeMillis()){
             Toast t=Toast.makeText(getApplicationContext(),"Save failed. try a later date.",
                     Toast.LENGTH_SHORT);
             t.show();
             return;
+        }
+        else{
+            String dueDate=textDate.getText().toString();
+            String month=dueDate.substring(0, dueDate.indexOf(" "));
+            Integer day=Integer.parseInt(dueDate.substring(dueDate.indexOf(" ") + 1, dueDate.indexOf(",")));
+            Integer yr=Integer.parseInt(dueDate.substring(dueDate.indexOf(",") + 2));
+            Calendar calendar2=Calendar.getInstance();
+            Map<String,Integer> map=calendar2.getDisplayNames(Calendar.MONTH, Calendar.ALL_STYLES,
+                    Locale.US);
+            String dueTime=textTime.getText().toString();
+            Integer hour=Integer.parseInt(dueTime.substring(0, dueTime.indexOf(":")));
+            Integer min=Integer.parseInt(dueTime.substring(dueTime.indexOf(":") + 1, dueTime.indexOf(" ")));
+            String am=dueTime.substring(dueTime.indexOf(" ")+1);
+            if(am.contains("PM") && hour!=12){
+                hour+=12;
+            }
+            calendar2.set(yr,map.get(month),day);
+            calendar2.set(Calendar.HOUR_OF_DAY,hour);
+            calendar2.set(Calendar.MINUTE,min);
+            calendar2.set(Calendar.SECOND,0);
+            if(calendar2.getTimeInMillis()<System.currentTimeMillis()){
+                Toast t=Toast.makeText(getApplicationContext(),"Save failed. try a later date.",
+                        Toast.LENGTH_SHORT);
+                t.show();
+                return;
+            }
         }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
