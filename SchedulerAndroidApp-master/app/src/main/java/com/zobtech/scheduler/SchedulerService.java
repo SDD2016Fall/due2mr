@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
-// writen by Jame Zirons
+
 public class SchedulerService extends Service {
 
 

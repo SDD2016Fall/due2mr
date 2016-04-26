@@ -1,7 +1,6 @@
 package com.zobtech.scheduler;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
@@ -36,7 +35,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-// writen by Chaonan Ye, Yi Lu, Yipeng Zhang, James Zirons
 public class AddScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     // id's for timepicker and datepicker dialogs.
@@ -233,13 +231,6 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-
-        if(calendar.getTimeInMillis()<System.currentTimeMillis()){
-            Toast t=Toast.makeText(getApplicationContext(),"Save failed. try a later date.",
-                                   Toast.LENGTH_SHORT);
-            t.show();
-            return;
-        }
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 

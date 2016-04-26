@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// writen by Chaonan Ye
+
 public class DetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // instance of text views

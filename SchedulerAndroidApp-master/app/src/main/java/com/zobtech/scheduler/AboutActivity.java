@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-// Writen by Yipeng Zhang
 public class AboutActivity extends ActionBarActivity {
 
     @Override
