@@ -11,7 +11,7 @@ import com.zobtech.scheduler.slides.FourthSlide;
 import com.zobtech.scheduler.slides.SecondSlide;
 import com.zobtech.scheduler.slides.ThirdSlide;
 
-
+// Written by Yi Lu
 public class IntroActivity extends AppIntro {
 
     public SharedPreferences settings;

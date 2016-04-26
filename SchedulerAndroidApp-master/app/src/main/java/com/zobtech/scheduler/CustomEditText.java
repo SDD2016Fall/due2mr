@@ -5,9 +5,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-/**
- * Created by Junior on 15/06/2015.
- */
+// Written by Yi Lu
+
 public class CustomEditText extends EditText {
 
     public CustomEditText(Context context, AttributeSet attrs) {

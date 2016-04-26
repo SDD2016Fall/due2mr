@@ -36,7 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_weight="0.16">
 
         <com.zobtech.scheduler.CustomTextView
             android:id="@+id/list_item_time_textview"
@@ -47,5 +48,13 @@
             android:gravity="center"
             android:textSize="14sp" />
 
+        <com.zobtech.scheduler.CustomTextView
+            android:id="@+id/list_item_countdown_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="countdown"
+            android:textColor="#0d9ab4"
+            android:gravity="center"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

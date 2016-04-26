@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
+// Written by Yi Lu, Chaonan Ye
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{

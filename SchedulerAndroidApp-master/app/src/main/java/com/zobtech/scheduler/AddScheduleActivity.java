@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
+// Written by Yi Lu, Chaonan Ye, Yipeng Zhang, James Ziron
 public class AddScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     // id's for timepicker and datepicker dialogs.
@@ -232,6 +232,12 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
+        if(calendar.getTimeInMillis()<System.currentTimeMillis()){
+            Toast t=Toast.makeText(getApplicationContext(),"Save failed. try a later date.",
+                    Toast.LENGTH_SHORT);
+            t.show();
+            return;
+        }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         i.setClass(AddScheduleActivity.this, SchedulerService.class);

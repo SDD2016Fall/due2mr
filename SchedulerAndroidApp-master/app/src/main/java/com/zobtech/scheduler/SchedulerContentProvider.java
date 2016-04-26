@@ -10,9 +10,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-/**
- * Created by Junior on 02/06/2015.
- */
+// Written by Yipeng Zhang, James Ziron
 public class SchedulerContentProvider extends ContentProvider {
 
     // database
