@@ -1,3 +1,7 @@
+/*
+ * Written by Yi Lu, Chaonan Ye, Yipeng Zhang, James Ziron
+ */
+
 package com.zobtech.scheduler;
 
 import android.app.AlarmManager;
@@ -19,7 +23,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,21 +39,26 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-// Written by Yi Lu, Chaonan Ye, Yipeng Zhang, James Ziron
-public class AddScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+public class AddScheduleActivity extends ActionBarActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>{
 
     // id's for timepicker and datepicker dialogs.
     static final int TIME_DIALOG_ID = 0;
     static final int DATE_DIALOG_ID = 1;
 
     // variables to save the time and date from the time and date picker dialogs.
-    int yr, month, day;
-    int hour, minute;
+    int yr;
+    int month;
+    int day;
+    int hour;
+    int minute;
 
     // views to set/display user's schedule, description, date and time.
     static EditText textSchedule;
     EditText textDescription;
-    TextView textDate, textTime;
+    TextView textDate;
+    TextView textTime;
 
     // an instance of the DataBaseHelper class.
     private DataBaseHelper myDb;
@@ -69,18 +77,19 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
         Bundle extras = getIntent().getExtras();
 
         if (extras == null) {
+            // get the current date and time
+            Calendar today = Calendar.getInstance();
+
             // initializing the text views
             textSchedule = (EditText) findViewById(R.id.schedule);
             textDescription = (EditText) findViewById(R.id.description);
             textDate = (TextView) findViewById(R.id.dateTextView);
             textTime = (TextView) findViewById(R.id.timeTextView);
 
-            // get the current date and time
-            Calendar today = Calendar.getInstance();
+            //initialize date/time variables
             yr = today.get(Calendar.YEAR);
             month = today.get(Calendar.MONTH);
             day = today.get(Calendar.DAY_OF_MONTH);
-
             hour = today.get(Calendar.HOUR_OF_DAY);
             minute = today.get(Calendar.MINUTE);
         }
@@ -91,8 +100,11 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
         // Or passed from the other activity
         if (extras != null) {
-            scheduleUri = extras
-                    .getParcelable(ScheduleActivity.SCHE);
+
+            // get the current date and time
+            Calendar today = Calendar.getInstance();
+
+            scheduleUri = extras.getParcelable(ScheduleActivity.SCHE);
 
             // initializing the text views
             textSchedule = (EditText) findViewById(R.id.schedule);
@@ -100,12 +112,10 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
             textDate = (TextView) findViewById(R.id.dateTextView);
             textTime = (TextView) findViewById(R.id.timeTextView);
 
-            // get the current date and time
-            Calendar today = Calendar.getInstance();
+            //initialize date/time variables
             yr = today.get(Calendar.YEAR);
             month = today.get(Calendar.MONTH);
             day = today.get(Calendar.DAY_OF_MONTH);
-
             hour = today.get(Calendar.HOUR_OF_DAY);
             minute = today.get(Calendar.MINUTE);
             getLoaderManager().initLoader(0, null, this);
@@ -114,6 +124,7 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_add_schedule, menu);
         return true;
@@ -121,9 +132,12 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
+        /*
+         * Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml.
+         */
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -132,13 +146,15 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
         }
 
         if (id == R.id.save) {
+
             // set error messages if text views are empty
-            if (textSchedule.getText().toString().length() == 0)
+            if (textSchedule.getText().toString().length() == 0) {
                 textSchedule.setError("A schedule title is required!");
-            else if (textDate.getText().toString().length() == 0)
+            } else if (textDate.getText().toString().length() == 0) {
                 textDate.setError("Please set a date");
-            else if (textTime.getText().toString().length() == 0)
+            } else if (textTime.getText().toString().length() == 0) {
                 textTime.setError("Please set a time");
+            }
 
             else {
                 saveSelected();
@@ -157,7 +173,6 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
                     minute = hour_minute;
 
                     String time = getTime(hourOfDay, hour_minute);
-
                     TextView timeTextView = (TextView) findViewById(R.id.timeTextView);
 
                     timeTextView.setText(time);
@@ -173,8 +188,7 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
-                public void onDateSet(
-                        DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     yr = year;
                     month = monthOfYear;
                     day = dayOfMonth;
@@ -190,7 +204,6 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
                     DateFormat dfTo = new SimpleDateFormat("MMMM dd, yyyy");
                     String outputDate = dfTo.format(inputDate);
-
                     TextView dateTextView = (TextView) findViewById(R.id.dateTextView);
 
                     dateTextView.setText(outputDate);
@@ -201,9 +214,12 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
         switch (id) {
             case TIME_DIALOG_ID:
                 return new TimePickerDialog(this, mTimeSetListener, hour, minute, false);
+                //returns; no fall-through
             case DATE_DIALOG_ID:
-                return new DatePickerDialog(
-                        this, mDateSetListener, yr, month, day);
+                return new DatePickerDialog(this, mDateSetListener, yr, month, day);
+                //returns; no fall-through
+            default:
+                break;
         }
         return null;
     }
@@ -222,7 +238,6 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
     public void saveSelected(){
 
         Intent i = new Intent();
-
         String message = textSchedule.getText().toString();
 
         // get an instance of the Calendar class
@@ -236,29 +251,41 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
         if(scheduleUri==null && calendar.getTimeInMillis()<System.currentTimeMillis()){
             Toast t=Toast.makeText(getApplicationContext(),"Save failed. try a later date.",
-                    Toast.LENGTH_SHORT);
+                                   Toast.LENGTH_SHORT);
             t.show();
             return;
         }
         else{
+
+            //get data and make a second calendar from the results
             String dueDate=textDate.getText().toString();
             String month=dueDate.substring(0, dueDate.indexOf(" "));
-            Integer day=Integer.parseInt(dueDate.substring(dueDate.indexOf(" ") + 1, dueDate.indexOf(",")));
+            String dueTime=textTime.getText().toString();
+
+            //parse numbers represented as text into Integers to create the calendar
+            Integer day=Integer.parseInt(dueDate.substring(dueDate.indexOf(" ") + 1,
+                                         dueDate.indexOf(",")));
             Integer yr=Integer.parseInt(dueDate.substring(dueDate.indexOf(",") + 2));
+            Integer hour=Integer.parseInt(dueTime.substring(0, dueTime.indexOf(":")));
+            Integer min=Integer.parseInt(dueTime.substring(dueTime.indexOf(":") + 1,
+                                         dueTime.indexOf(" ")));
+
             Calendar calendar2=Calendar.getInstance();
             Map<String,Integer> map=calendar2.getDisplayNames(Calendar.MONTH, Calendar.ALL_STYLES,
-                    Locale.US);
-            String dueTime=textTime.getText().toString();
-            Integer hour=Integer.parseInt(dueTime.substring(0, dueTime.indexOf(":")));
-            Integer min=Integer.parseInt(dueTime.substring(dueTime.indexOf(":") + 1, dueTime.indexOf(" ")));
+                                                              Locale.US);
+
             String am=dueTime.substring(dueTime.indexOf(" ")+1);
             if(am.contains("PM") && hour!=12){
                 hour+=12;
             }
+
+            //initialize the new calendar
             calendar2.set(yr,map.get(month),day);
             calendar2.set(Calendar.HOUR_OF_DAY,hour);
             calendar2.set(Calendar.MINUTE,min);
             calendar2.set(Calendar.SECOND,0);
+
+            //compare the new calendar with the event's due time to the current time
             if(calendar2.getTimeInMillis()<System.currentTimeMillis()){
                 Toast t=Toast.makeText(getApplicationContext(),"Save failed. try a later date.",
                         Toast.LENGTH_SHORT);
@@ -267,13 +294,14 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
             }
         }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        SQLiteDatabase db;
 
         i.setClass(AddScheduleActivity.this, SchedulerService.class);
         i.putExtra("msg", message);
         int idd = (int) System.currentTimeMillis();
 
         myDb = new DataBaseHelper(AddScheduleActivity.this);
-        SQLiteDatabase db = myDb.getWritableDatabase();
+        db = myDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.clear();
@@ -287,14 +315,17 @@ public class AddScheduleActivity extends ActionBarActivity implements LoaderMana
 
         if (scheduleUri == null) {
             Uri uri = SchedulerContentProvider.CONTENT_URI;
+
             //New schedule
             scheduleUri = getApplicationContext().getContentResolver().insert(uri, values);
         } else {
+
             //Update schedule
             getContentResolver().update(scheduleUri, values, null, null);
         }
 
-        PendingIntent pendingIntent = PendingIntent.getService(AddScheduleActivity.this, idd, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(AddScheduleActivity.this, idd, i,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
         Intent intent = new Intent(AddScheduleActivity.this, ScheduleActivity.class);

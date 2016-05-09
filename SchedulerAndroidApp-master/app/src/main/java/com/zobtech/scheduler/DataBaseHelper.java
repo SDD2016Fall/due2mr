@@ -1,3 +1,6 @@
+/*
+ * Written by James Ziron
+ */
 package com.zobtech.scheduler;
 
 import android.content.Context;
@@ -5,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-// Written by James Ziron
+
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Database Name
@@ -55,8 +58,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.w(DataBaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to "
-                + newVersion + ", which will destroy all old data");
+        Log.w(DataBaseHelper.class.getName(), "Upgrading database from version " + oldVersion
+              + " to " + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }

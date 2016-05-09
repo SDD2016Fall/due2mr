@@ -1,3 +1,7 @@
+/*
+ * Written by Yipeng Zhang, James Ziron
+ */
+
 package com.zobtech.scheduler;
 
 import android.content.ContentProvider;
@@ -10,11 +14,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-// Written by Yipeng Zhang, James Ziron
-public class SchedulerContentProvider extends ContentProvider {
 
-    // database
-    private DataBaseHelper database;
+public class SchedulerContentProvider extends ContentProvider {
 
     // used for the UriMatcher
     private static final int SCHEDULES = 1;
@@ -23,21 +24,20 @@ public class SchedulerContentProvider extends ContentProvider {
     // content provider's namespace
     private static final String AUTHORITY = "com.zobtech.scheduler.contentprovider";
     private static final String BASE_PATH = "schedules";
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
-
-
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-            + "/schedules";
+                                             + "/schedules";
     public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-            + "/schedule";
-
-    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+                                                  + "/schedule";
 
     static {
         uriMatcher.addURI(AUTHORITY, BASE_PATH, SCHEDULES);
         uriMatcher.addURI(AUTHORITY, BASE_PATH + "/#", SCHEDULE_ID);
     }
+
+    private DataBaseHelper database;
 
     @Override
     public boolean onCreate() {
@@ -46,7 +46,8 @@ public class SchedulerContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+                        String sortOrder) {
 
         // Using SQLiteQueryBuilder instead of query() method
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
@@ -62,9 +63,10 @@ public class SchedulerContentProvider extends ContentProvider {
             case SCHEDULES:
                 break;
             case SCHEDULE_ID:
+
                 // adding the ID to the original query
                 queryBuilder.appendWhere(DataBaseHelper.COLUMN_ID + "="
-                        + uri.getLastPathSegment());
+                                         + uri.getLastPathSegment());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -72,7 +74,8 @@ public class SchedulerContentProvider extends ContentProvider {
 
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = queryBuilder.query(db, projection, selection,
-                selectionArgs, null, null, sortOrder);
+                                           selectionArgs, null, null, sortOrder);
+
         // make sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -83,12 +86,16 @@ public class SchedulerContentProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
+
             //---get all books---
             case SCHEDULES:
                 return "vnd.android.cursor.dir/vnd.zobtech.schedules";
+                //returns; no break
+
             //---get a particular book---
             case SCHEDULE_ID:
                 return "vnd.android.cursor.item/vnd.zobtech.schedules ";
+                //returns; no break
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -104,6 +111,7 @@ public class SchedulerContentProvider extends ContentProvider {
             case SCHEDULES:
                 id = sqlDB.insert(DataBaseHelper.TABLE_NAME, null, values);
                 break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -119,21 +127,23 @@ public class SchedulerContentProvider extends ContentProvider {
         switch (uriType) {
             case SCHEDULES:
                 rowsDeleted = sqlDB.delete(DataBaseHelper.TABLE_NAME, selection,
-                        selectionArgs);
+                                           selectionArgs);
                 break;
+
             case SCHEDULE_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsDeleted = sqlDB.delete(DataBaseHelper.TABLE_NAME,
-                            DataBaseHelper.COLUMN_ID + "=" + id,
-                            null);
+                                               DataBaseHelper.COLUMN_ID + "=" + id,
+                                               null);
                 } else {
                     rowsDeleted = sqlDB.delete(DataBaseHelper.TABLE_NAME,
-                            DataBaseHelper.COLUMN_ID + "=" + id
-                                    + " and " + selection,
-                            selectionArgs);
+                                               DataBaseHelper.COLUMN_ID + "=" + id
+                                               + " and " + selection,
+                                               selectionArgs);
                 }
                 break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -149,24 +159,24 @@ public class SchedulerContentProvider extends ContentProvider {
         switch (uriType) {
             case SCHEDULES:
                 rowsUpdated = sqlDB.update(DataBaseHelper.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
+                                           values,
+                                           selection,
+                                           selectionArgs);
                 break;
             case SCHEDULE_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = sqlDB.update(DataBaseHelper.TABLE_NAME,
-                            values,
-                            DataBaseHelper.COLUMN_ID + "=" + id,
-                            null);
+                                               values,
+                                               DataBaseHelper.COLUMN_ID + "=" + id,
+                                               null);
                 } else {
                     rowsUpdated = sqlDB.update(DataBaseHelper.TABLE_NAME,
-                            values,
-                            DataBaseHelper.COLUMN_ID + "=" + id
-                                    + " and "
-                                    + selection,
-                            selectionArgs);
+                                               values,
+                                               DataBaseHelper.COLUMN_ID + "=" + id
+                                                    + " and "
+                                                    + selection,
+                                               selectionArgs);
                 }
                 break;
             default:

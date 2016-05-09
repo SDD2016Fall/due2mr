@@ -1,3 +1,7 @@
+/*
+ * Written by Yi Lu, Chaonan Ye
+ */
+
 package com.zobtech.scheduler;
 
 import android.annotation.TargetApi;
@@ -23,10 +27,9 @@ import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
-// Written by Yi Lu, Chaonan Ye
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ScheduleActivity extends ActionBarActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int DELETE_ID = Menu.FIRST + 1;
     public static final String SCHE = "";
@@ -39,6 +42,10 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        NotificationManager notificationManager
+                = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         // initializing the instance of ScheduleCursorAdapter
         mAdapter = new ScheduleCursorAdapter(this, null, 0);
@@ -48,14 +55,14 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
         // initializing the floating action button object
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(listView);
         fab.show();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(ScheduleActivity.this, AddScheduleActivity.class), 1);
+                startActivityForResult(new Intent(ScheduleActivity.this, AddScheduleActivity.class),
+                                       1);
             }
         });
 
@@ -63,7 +70,6 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         listView.setAdapter(mAdapter);
 
         // set a text view when the list view is empty
-        TextView emptyText = (TextView) findViewById(R.id.emptyText);
         listView.setEmptyView(emptyText);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,7 +86,6 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
 
         registerForContextMenu(listView);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
 
         getLoaderManager().initLoader(0, null, this);
@@ -88,6 +93,7 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_schedule, menu);
         return true;
@@ -95,9 +101,12 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
+        /*
+         * Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml.
+         */
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -122,14 +131,16 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case DELETE_ID:
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-                        .getMenuInfo();
-                Uri uri = Uri.parse(SchedulerContentProvider.CONTENT_URI + "/"
-                        + info.id);
+                AdapterView.AdapterContextMenuInfo info
+                        = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                Uri uri = Uri.parse(SchedulerContentProvider.CONTENT_URI + "/" + info.id);
                 getContentResolver().delete(uri, null, null);
                 getLoaderManager().initLoader(0, null, this);
 
                 return true;
+                //returns; no fall-through
+            default:
+                break;
         }
         return super.onContextItemSelected(item);
     }

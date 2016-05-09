@@ -1,3 +1,7 @@
+/*
+ * Written by Yi Lu
+ */
+
 package com.zobtech.scheduler;
 
 import android.content.Intent;
@@ -11,7 +15,6 @@ import com.zobtech.scheduler.slides.FourthSlide;
 import com.zobtech.scheduler.slides.SecondSlide;
 import com.zobtech.scheduler.slides.ThirdSlide;
 
-// Written by Yi Lu
 public class IntroActivity extends AppIntro {
 
     public SharedPreferences settings;
@@ -30,11 +33,12 @@ public class IntroActivity extends AppIntro {
 
             setFadeAnimation();
 
-        } else{ loadMainActivity();}
+        } else{
+            loadMainActivity();
+        }
     }
 
     private void loadMainActivity(){
-
         settings = getSharedPreferences("prefs", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("firstRun", false);

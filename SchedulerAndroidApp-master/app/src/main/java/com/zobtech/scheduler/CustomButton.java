@@ -1,3 +1,6 @@
+/*
+ * Written by Yi Lu
+ */
 package com.zobtech.scheduler;
 
 import android.content.Context;
@@ -5,7 +8,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-// Written by Yi Lu
+
 
 public class CustomButton extends Button {
     public CustomButton(Context context, AttributeSet attrs) {

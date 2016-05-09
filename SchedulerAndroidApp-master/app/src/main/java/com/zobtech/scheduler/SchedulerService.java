@@ -1,3 +1,7 @@
+/*
+ * Written by Yipeng Zhang
+ */
+
 package com.zobtech.scheduler;
 
 import android.app.Notification;
@@ -8,10 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
-// Written by Yipeng Zhang
-
 public class SchedulerService extends Service {
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -29,13 +30,11 @@ public class SchedulerService extends Service {
         super.onDestroy();
     }
 
-
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
 
         String message = intent.getStringExtra("msg");
-
         NotificationManager  notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
         int icon = R.mipmap.ic_launcher;
@@ -43,7 +42,6 @@ public class SchedulerService extends Service {
         long when = System.currentTimeMillis();
 
         Notification notification = new Notification(icon, tickerText, when);
-
         Intent notificationIntent = new Intent(this, ScheduleActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 

@@ -1,3 +1,6 @@
+/*
+ * Written by Yipeng Zhang
+ */
 package com.zobtech.scheduler;
 
 import android.annotation.TargetApi;
@@ -15,14 +18,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// Written by Yipeng Zhang
-public class DetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailActivity extends ActionBarActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // instance of text views
-    TextView detailSchedule, detailDate, detailTime, detailDescription;
+    TextView detailSchedule;
+    TextView detailDate;
+    TextView detailTime;
+    TextView detailDescription;
     private Uri _uri;
-
-
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -42,6 +46,7 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
@@ -49,9 +54,12 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
+        /*
+         * Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml.
+         */
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
